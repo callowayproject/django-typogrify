@@ -12,7 +12,7 @@ except ImportError:
 
 register = template.Library()
 
-def amp(text):
+def amp_filter(text):
 	"""Wraps ampersands in HTML with ``<span class="amp">`` so they can be
 	styled with CSS. Ampersands are also normalized to ``&amp;``. Requires 
 	ampersands to have whitespace or an ``&nbsp;`` on both sides.
@@ -53,7 +53,7 @@ def amp(text):
 	return mark_safe(output)
 amp.is_safe = True
 
-def caps(text):
+def caps_filter(text):
 	"""Wraps multiple capital letters in ``<span class="caps">`` 
 	so they can be styled with CSS. 
 	
@@ -126,7 +126,7 @@ def caps(text):
 	return mark_safe(output)
 caps.is_safe = True
 
-def number_suffix(text):
+def number_suffix_filter(text):
 	"""Wraps date suffix in <span class="ord">
 	so they can be styled with CSS.
 	
@@ -152,7 +152,7 @@ def number_suffix(text):
 	mark_safe(output)
 number_suffix.is_safe = True
 
-def initial_quotes(text):
+def initial_quotes_filter(text):
 	"""Wraps initial quotes in ``class="dquo"`` for double quotes or  
 	``class="quo"`` for single quotes. Works in these block tags ``(h1-h6, p, li, dt, dd)``
 	and also accounts for potential opening inline elements ``a, em, strong, span, b, i``
@@ -187,7 +187,7 @@ def initial_quotes(text):
 	return mark_safe(output)
 initial_quotes.is_safe = True
 
-def smartypants(text):
+def smartypants_filter(text):
 	"""Applies smarty pants to curl quotes.
 	
 	>>> smartypants('The "Green" man')
@@ -196,9 +196,9 @@ def smartypants(text):
 	text = force_unicode(text)
 	output = smartypants.smartyPants(text)
 	return mark_safe(output)
-smartypants.is_safe = True
+smartypants_filter.is_safe = True
 
-def titlecase(text):
+def titlecase_filter(text):
 	"""Support for titlecase.py's titlecasing
 
 	>>> titlecase("this V that")
@@ -217,7 +217,7 @@ def titlecase(text):
 	else:
 		return titlecase.titlecase(text)
 
-def widont(text):
+def widont_filter(text):
 	"""Replaces the space between the last two words in a string with ``&nbsp;``
 	Works in these block tags ``(h1-h6, p, li, dd, dt)`` and also accounts for 
 	potential closing inline elements ``a, em, strong, span, b, i``
@@ -260,7 +260,7 @@ def widont(text):
 	text = force_unicode(text)
 	widont_finder = re.compile(r"""((?:</?(?:a|em|span|strong|i|b)[^>]*>)|[^<>\s]) # must be proceeded by an approved inline opening or closing tag or a nontag/nonspace
 								   \s+											   # the space to replace
-								   ([^<>\s]+									   # must be flollowed by non-tag non-space characters
+								   ([^<>\s]+									   # must be followed by non-tag non-space characters
 								   \s*											   # optional white space! 
 								   (</(a|em|span|strong|i|b)>\s*)*				   # optional closing inline tags with optional white space after each
 								   ((</(p|h[1-6]|li|dt|dd)>)|$))				   # end with a closing p, h1-6, li or the end of the string
@@ -269,7 +269,7 @@ def widont(text):
 	return mark_safe(output)
 widont.is_safe = True
 
-def typogrify(text):
+def typogrify_filter(text):
 	"""The super typography filter
 	
 	Applies the following filters: widont, smartypants, caps, amp, initial_quotes
@@ -282,21 +282,21 @@ def typogrify(text):
 	u'<h2><span class="dquo">&#8220;</span>Jayhawks&#8221; <span class="amp">&amp;</span> <span class="caps">KU</span> fans act extremely&nbsp;obnoxiously</h2>'
 	"""
 	text = force_unicode(text)
-	text = amp(text)
-	text = widont(text)
-	text = smartypants(text)
-	text = caps(text)
-	text = initial_quotes(text)
-	text = number_suffix(text)
+	text = amp_filter(text)
+	text = widont_filter(text)
+	text = smartypants_filter(text)
+	text = caps_filter(text)
+	text = initial_quotes_filter(text)
+	text = number_suffix_filter(text)
 	return text
 
-register.filter('amp', amp)
-register.filter('caps', caps)
-register.filter('initial_quotes', initial_quotes)
-register.filter('smartypants', smartypants)
-register.filter('titlecase', titlecase)
-register.filter('widont', widont)
-register.filter('typogrify', typogrify)
+register.filter('amp', amp_filter)
+register.filter('caps', caps_filter)
+register.filter('initial_quotes', initial_quotes_filter)
+register.filter('smartypants', smartypants_filter)
+register.filter('titlecase', titlecase_filter)
+register.filter('widont', widont_filter)
+register.filter('typogrify', typogrify_filter)
 
 def _test():
 	import doctest
