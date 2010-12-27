@@ -51,7 +51,7 @@ def amp_filter(text):
 		return prefix + text + suffix
 	output = intra_tag_finder.sub(_amp_process, text)
 	return mark_safe(output)
-amp.is_safe = True
+amp_filter.is_safe = True
 
 def caps_filter(text):
 	"""Wraps multiple capital letters in ``<span class="caps">`` 
@@ -124,7 +124,7 @@ def caps_filter(text):
 				result.append(cap_finder.sub(_cap_wrapper, token[1]))
 	output = "".join(result)
 	return mark_safe(output)
-caps.is_safe = True
+caps_filter.is_safe = True
 
 def number_suffix_filter(text):
 	"""Wraps date suffix in <span class="ord">
@@ -149,8 +149,8 @@ def number_suffix_filter(text):
 		
 		return "%s<span class='ord'>%s</span>" % (number, suffix)
 	output = suffix_finder.sub(_suffix_process, text)
-	mark_safe(output)
-number_suffix.is_safe = True
+	return mark_safe(output)
+number_suffix_filter.is_safe = True
 
 def initial_quotes_filter(text):
 	"""Wraps initial quotes in ``class="dquo"`` for double quotes or  
@@ -185,7 +185,7 @@ def initial_quotes_filter(text):
 		return """%s<span class="%s">%s</span>""" % (matchobj.group(1), classname, quote) 
 	output = quote_finder.sub(_quote_wrapper, text)
 	return mark_safe(output)
-initial_quotes.is_safe = True
+initial_quotes_filter.is_safe = True
 
 def smartypants_filter(text):
 	"""Applies smarty pants to curl quotes.
@@ -267,7 +267,7 @@ def widont_filter(text):
 								   """, re.VERBOSE)
 	output = widont_finder.sub(r'\1&nbsp;\2', text)
 	return mark_safe(output)
-widont.is_safe = True
+widont_filter.is_safe = True
 
 def typogrify_filter(text):
 	"""The super typography filter
