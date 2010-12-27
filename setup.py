@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='typogrify',
-      version='1.0',
+      version='1.1',
       description='Typography related template filters for Django applications',
       author='Christian Metts',
       author_email='xian@mintchaos.com',
