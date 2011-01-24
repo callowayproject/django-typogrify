@@ -1,4 +1,14 @@
-from distutils.core import setup
+import os
+from setuptools import setup, find_packages
+
+def read_file(filename):
+    """Read a file into a string"""
+    path = os.path.abspath(os.path.dirname(__file__))
+    filepath = os.path.join(path, filename)
+    try:
+        return open(filepath).read()
+    except IOError:
+        return ''
 
 setup(name='typogrify',
       version='1.1',
@@ -14,4 +24,6 @@ setup(name='typogrify',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python',
                    'Topic :: Utilities'],
-      )
+      install_package_data=True,
+      install_requires=read_file('requirements.txt'),
+)
