@@ -13,6 +13,7 @@ def read_file(filename):
 setup(name='typogrify',
       version='1.1',
       description='Typography related template filters for Django applications',
+      long_description=read_file('docs/typogrify.txt'),
       author='Christian Metts',
       author_email='xian@mintchaos.com',
       url='http://code.google.com/p/typogrify/',
