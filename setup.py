@@ -11,7 +11,7 @@ def read_file(filename):
         return ''
 
 setup(name='typogrify',
-      version='1.1',
+      version='1.1.1',
       description='Typography related template filters for Django applications',
       long_description=read_file('docs/typogrify.txt'),
       author='Christian Metts',
